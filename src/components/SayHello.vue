@@ -13,10 +13,13 @@
 
     <button v-on:click="greet">Greet</button>
 
+    <!-- v-on 可以缩写为@，向父组件发送事件,父组件监听该事件然后做相关处理 -->
+    <button v-on:click="emitEventToParent">emitEventToParent</button>
+
     <p>Computed reversed message: "{{ reversedMessage }}"</p>
 
     <input v-model="message" placeholder="edit me">
-    <p>Message is: {{ message }}</p>
+    <p>Message is: {{ messagePo }}</p>
 
     <p>watchValue is: {{ watchValue }}</p>
   </div>
@@ -25,6 +28,7 @@
 <script>
 export default {
   name: 'SayHello',
+  props: ['messagePo'],  //接受父类传递的属性值，可以为数组或者对象
   data () {
     return {
       watchValue:'old',
@@ -45,8 +49,12 @@ export default {
   },
   methods: { // 在 `methods` 对象中定义方法,`this` 在方法里指向当前 Vue 实例
     greet: function () {
-      //alert("method test:" + this.hello);
+      alert("props message:" + this.message);
       this.watchValue = 'new';
+    },
+    emitEventToParent: function () {
+      console.log('method emitEventToParent');
+      this.$emit('parent-event',this.hello)
     }
   },
   computed: { // 计算属性
